@@ -1,0 +1,769 @@
+<?xml version="1.0"?>
+<mavlink>
+    <include>ardupilotmega.xml</include>
+	<include>common.xml</include>
+	<include>icarous.xml</include>
+    <!-- <version>0</version>-->
+    <dialect>1</dialect>
+	<enums>
+		<enum name="UBLOX_GNSS_SYSTEM_TYPE">
+		  <description>List of available GNSS-Systems with numbering accoring to UBLOX</description>
+		  <entry value="0" name="UBLOX_GNSS_SYSTEM_GPS">
+			<description>GNSS Sytem Type: Global Positioning System (GPS)</description>
+		  </entry>
+		  <entry value="1" name="UBLOX_GNSS_SYSTEM_SBAS">
+			<description>GNSS Sytem Type: Satellite-based Augmentation System (SBAS)</description>
+		  </entry>
+		  <entry value="2" name="UBLOX_GNSS_SYSTEM_GAL">
+			<description>GNSS Sytem Type: European Union Global Navigation Satellite System GALILEO</description>
+		  </entry>
+		  <entry value="3" name="UBLOX_GNSS_SYSTEM_CMP">
+			<description>GNSS Sytem Type: Chinese BeiDou Navigation Satellite System (CMP)</description>
+		  </entry>
+		  <entry value="5" name="UBLOX_GNSS_SYSTEM_QZS">
+			<description>GNSS Sytem Type: Quasi-Zenith Satellite System (QZSS)</description>
+		  </entry>
+		  <entry value="6" name="UBLOX_GNSS_SYSTEM_GLO">
+			<description>GNSS Sytem Type: Russian Federation Global Navigation Satellite System GLONASS</description>
+		  </entry>
+		</enum>
+		<enum name="GNSS_MSG_DATA_TYPE">
+		  <description>List of GNSS message data types to be requested.</description>
+		  <entry value="0" name="GNSS_PSEUDORANGE_PHASESHIFT">
+			<description>Request Pseudorange and Phaseshift data of available satellites.</description>
+		  </entry>
+		  <entry value="1" name="GNSS_EPHEMERIS">
+			<description>Request Ehemeris data of available satellites.</description>
+		  </entry>
+		</enum>
+		<enum name="WEA_MOTION_MODE">
+		  <description>List of motion conditions of a wind turbine.</description>
+		  <entry value="1" name="WEA_STOPPED">
+			<description>WEA turbine is stopped.</description>
+		  </entry>
+		  <entry value="2" name="WEA_STOPPING">
+			<description>WEA turbine is decreasing rpm in order to stop.</description>
+		  </entry>
+		  <entry value="3" name="WEA_RUNNING">
+			<description>WEA turbine is running normally.</description>
+		  </entry>
+		  <entry value="4" name="WEA_STARTING_UP">
+			<description>WEA is increasing rpm to enter normal operation.</description>
+		  </entry>
+		  <entry value="5" name="WEA_NOT_AVAILABLE">
+			<description>Data about the current WEA motion mode is n/a.</description>
+		  </entry>
+		  <entry value="6" name="WEA_HOIST_READY">
+			<description>WEA is ready for hoisting/landing maneuver.</description>
+		  </entry>
+		</enum>
+		<enum name="CTRL_IT_FLAGS">
+		  <description>List of controller active axes flags.</description>
+		  <entry value="1" name="CTRL_IT_X_AXIS">
+			<description>Roll axis enabled.</description>
+		  </entry>
+		  <entry value="2" name="CTRL_IT_Y_AXIS">
+			<description>Pitch axis enabled.</description>
+		  </entry>
+		  <entry value="3" name="CTRL_IT_Z_AXIS">
+			<description>Yaw axis enabled.</description>
+		  </entry>
+		  <entry value="4" name="CTRL_IT_THR_AXIS">
+			<description>Throttle axis enabled.</description>
+		  </entry>
+		</enum>
+		<enum name="WEPILOT_CTRL_MODE">
+		  <description>List of main controller modes of wePilot.</description>
+		  <entry value="0" name="WEPILOT_CTRL_MODE_WEPILOT">
+			<description>wePilot is in full control.</description>
+		  </entry>
+		  <entry value="1" name="WEPILOT_CTRL_MODE_EXTVEL">
+			<description>External velocity control mode.</description>
+		  </entry>
+		  <entry value="2" name="WEPILOT_CTRL_MODE_EXTDIRECT">
+			<description>External direct actuator control mode.</description>
+		  </entry>
+		  <entry value="3" name="WEPILOT_CTRL_MODE_EXTSPDOFF">
+			<description>External speed offset mode.</description>
+		  </entry>
+		  <entry value="255" name="WEPILOT_CTRL_MODE_INVALID">
+			<description>Main control mode invalid.</description>
+		  </entry>
+		</enum>
+		<enum name="WEPILOT_FLT_MODE">
+		  <description>List of flight modes of wePilot.</description>
+		  <entry value="0" name="WEPILOT_FLT_MODE_RC">
+			<description>Flight mode RC control.</description>
+		  </entry>
+		  <entry value="1" name="WEPILOT_FLT_MODE_MANUAL">
+			<description>Flight mode manual control (no RC).</description>
+		  </entry>
+		  <entry value="2" name="WEPILOT_FLT_MODE_AUTO">
+			<description>Flight mode automatic.</description>
+		  </entry>
+		  <entry value="3" name="WEPILOT_FLT_MODE_DEGRADED">
+			<description>Flight mode degraded.</description>
+		  </entry>
+		  <entry value="4" name="WEPILOT_FLT_MODE_HOME">
+			<description>Flight mode return to home.</description>
+		  </entry>
+		  <entry value="255" name="WEPILOT_FLT_MODE_INVALID">
+			<description>Flight mode invalid.</description>
+		  </entry>
+		</enum>
+		<enum name="WEPILOT_FLT_PHASE">
+		  <description>List of flight phases of wePilot.</description>
+		  <entry value="0" name="WEPILOT_FLT_PHASE_NOT_READY">
+			<description>Flight phase not ready.</description>
+		  </entry>
+		  <entry value="16" name="WEPILOT_FLT_PHASE_READY">
+			<description>Flight phase ready.</description>
+		  </entry>
+		  <entry value="32" name="WEPILOT_FLT_PHASE_FAULT">
+			<description>Flight phase fault.</description>
+		  </entry>
+		  <entry value="48" name="WEPILOT_FLT_PHASE_TEST">
+			<description>Flight phase test.</description>
+		  </entry>
+		  <entry value="64" name="WEPILOT_FLT_PHASE_TAKEOFF">
+			<description>Flight phase take-off.</description>
+		  </entry>
+		  <entry value="80" name="WEPILOT_FLT_PHASE_MANUAL">
+			<description>Flight pahse manual.</description>
+		  </entry>
+		  <entry value="96" name="WEPILOT_FLT_PHASE_WAYPOINTS">
+			<description>Flight phase waypoints.</description>
+		  </entry>
+		  <entry value="112" name="WEPILOT_FLT_PHASE_FIGURES">
+			<description>Flight phase figures.</description>
+		  </entry>
+		  <entry value="128" name="WEPILOT_FLT_PHASE_HOME">
+			<description>Flight phase home.</description>
+		  </entry>
+		  <entry value="144" name="WEPILOT_FLT_PHASE_LANDING">
+			<description>Flight phase landing.</description>
+		  </entry>
+		  <entry value="160" name="WEPILOT_FLT_PHASE_IMMEDIATE_LANDING">
+			<description>Flight phase immediate landing.</description>
+		  </entry>
+		  <entry value="176" name="WEPILOT_FLT_PHASE_CTRLCRASH">
+			<description>Flight phase termination (controlled crash).</description>
+		  </entry>
+		  <entry value="192" name="WEPILOT_FLT_PHASE_LINKLOST">
+			<description>Flight phase link lost.</description>
+		  </entry>
+		  <entry value="208" name="WEPILOT_FLT_PHASE_DEGRADED">
+			<description>Flight phase degraded.</description>
+		  </entry>
+		  <entry value="224" name="WEPILOT_FLT_PHASE_DEGRADED_LANDING">
+			<description>Flight phase degraded landing.</description>
+		  </entry>
+		  <entry value="240" name="WEPILOT_FLT_PHASE_SHUTDOWN_ENGINE">
+			<description>Flight phase shut down engine.</description>
+		  </entry>
+		  <entry value="255" name="WEPILOT_FLT_PHASE_INVALID">
+			<description>Flight phase invalid.</description>
+		  </entry>
+		</enum>
+		<enum name="WEPILOT_FLT_SUBPHASE">
+		  <description>List of flight subphases of wePilot.</description>
+		  <entry value="0" name="WEPILOT_FLT_SUBPHASE_IMU_AQU">
+			<description>Flight phase IMU aquisition.</description>
+		  </entry>
+		  <entry value="1" name="WEPILOT_FLT_SUBPHASE_GPS_AQU">
+			<description>Flight phase GNSS aquisition.</description>
+		  </entry>
+		  <entry value="16" name="WEPILOT_FLT_SUBPHASE_READY">
+			<description>Flight sub phase ready.</description>
+		  </entry>
+		  <entry value="48" name="WEPILOT_FLT_SUBPHASE_TEST_MOTORS">
+			<description>Flight sub phase test motors.</description>
+		  </entry>
+		  <entry value="49" name="WEPILOT_FLT_SUBPHASE_TEST_ACT">
+			<description>Flight sub phase test actuators.</description>
+		  </entry>
+		  <entry value="50" name="WEPILOT_FLT_SUBPHASE_TEST_LASER">
+			<description>Flight sub phase test laser.</description>
+		  </entry>
+		  <entry value="64" name="WEPILOT_FLT_SUBPHASE_HAND_LAUNCH">
+			<description>Flight sub phase hand launch.</description>
+		  </entry>
+		  <entry value="65" name="WEPILOT_FLT_SUBPHASE_CAT_LAUNCH">
+			<description>Flight sub pahse catapult launch.</description>
+		  </entry>
+		  <entry value="66" name="WEPILOT_FLT_SUBPHASE_STATIONARY">
+			<description>Flight sub phase stationary.</description>
+		  </entry>
+		  <entry value="67" name="WEPILOT_FLT_SUBPHASE_GOV_RAMP">
+			<description>Flight sub phase governor ramping up.</description>
+		  </entry>
+		  <entry value="68" name="WEPILOT_FLT_SUBPHASE_GOV_NOM">
+			<description>Flight sub phase govenor nominal.</description>
+		  </entry>
+		  <entry value="69" name="WEPILOT_FLT_SUBPHASE_NON_STATIONARY">
+			<description>Flight sub phase non-stationary.</description>
+		  </entry>
+		  <entry value="79" name="WEPILOT_FLT_SUBPHASE_ABORT_TAKEOFF">
+			<description>Flight  sub phase abort take-off.</description>
+		  </entry>
+		  <entry value="80" name="WEPILOT_FLT_SUBPHASE_CRUISE">
+			<description>Flight subphase cruise.</description>
+		  </entry>
+		  <entry value="81" name="WEPILOT_FLT_SUBPHASE_HOVER">
+			<description>Flight sub phase hover.</description>
+		  </entry>
+		  <entry value="82" name="WEPILOT_FLT_SUBPHASE_CAM_GUIDANCE">
+			<description>Flight sub phase camera guidance.</description>
+		  </entry>
+		  <entry value="83" name="WEPILOT_FLT_SUBPHASE_EXTERNAL_CTRL">
+			<description>Flight sub phase DLR external control mode.</description>
+		  </entry>
+		  <entry value="96" name="WEPILOT_FLT_SUBPHASE_GOTO_WAYPOINT">
+			<description>Flight sub phase go to waypoint.</description>
+		  </entry>
+		  <entry value="97" name="WEPILOT_FLT_SUBPHASE_CIRCLE_WAYPOINT">
+			<description>Flight sub phase link lost.</description>
+		  </entry>
+		  <entry value="98" name="WEPILOT_FLT_SUBPHASE_STOP_WAYPOINT">
+			<description>Flight sub phase degraded.</description>
+		  </entry>
+		  <entry value="99" name="WEPILOT_FLT_SUBPHASE_EXEC_AOI">
+			<description>Flight sub phase execute AOI.</description>
+		  </entry>
+		  <entry value="100" name="WEPILOT_FLT_SUBPHASE_EXEC_SFIG">
+			<description>Flight sub phase execute s-figure.</description>
+		  </entry>
+		  <entry value="112" name="WEPILOT_FLT_SUBPHASE_HOVER2">
+			<description>Flight sub phase hover.</description>
+		  </entry>
+		  <entry value="113" name="WEPILOT_FLT_SUBPHASE_CIRCLE">
+			<description>Flight sub phase circle/orbit.</description>
+		  </entry>
+		  <entry value="114" name="WEPILOT_FLT_SUBPHASE_HIPPO">
+			<description>Flight sub phase fly hippodrome.</description>
+		  </entry>
+		  <entry value="115" name="WEPILOT_FLT_SUBPHASE_SPEED">
+			<description>Flight sub phase high speed.</description>
+		  </entry>
+		  <entry value="116" name="WEPILOT_FLT_SUBPHASE_CRUISE2">
+			<description>Flight sub phase cruise .</description>
+		  </entry>
+		  <entry value="117" name="WEPILOT_FLT_SUBPHASE_TRACK_GCS">
+			<description>Flight sub phase track GCS.</description>
+		  </entry>
+		  <entry value="118" name="WEPILOT_FLT_SUBPHASE_HOLD">
+			<description>Flight sub phase hold.</description>
+		  </entry>
+		  <entry value="119" name="WEPILOT_FLT_SUBPHASE_LANDING">
+			<description>Flight sub phase ready.</description>
+		  </entry>  
+		  <entry value="120" name="WEPILOT_FLT_SUBPHASE_WAIT_LPD_GREEN">
+			<description>Flight sub phase wait for landing pad to be ready.</description>
+		  </entry>
+		  <entry value="128" name="WEPILOT_FLT_SUBPHASE_GOTO_HOME">
+			<description>Flight sub phase go to home point.</description>
+		  </entry>
+		  <entry value="129" name="WEPILOT_FLT_SUBPHASE_CIRCLE_HOME">
+			<description>Flight subphase circle at home point.</description>
+		  </entry>
+		  <entry value="130" name="WEPILOT_FLT_SUBPHASE_STOP_HOME">
+			<description>Flight subphase stop at home point.</description>
+		  </entry>
+		  <entry value="131" name="WEPILOT_FLT_SUBPHASE_GOTO_MOVING_HOME">
+			<description>Flight subphase go to moving home point.</description>
+		  </entry>
+		  <entry value="132" name="WEPILOT_FLT_SUBPHASE_CIRCLE_MOVING_HOME">
+			<description>Flight subphase circle and moving home.</description>
+		  </entry>
+		  <entry value="144" name="WEPILOT_FLT_SUBPHASE_INFLIGHT">
+			<description>Flight subphase flying.</description>
+		  </entry>
+		  <entry value="145" name="WEPILOT_FLT_SUBPHASE_LANDED">
+			<description>Flight subphase landed.</description>
+		  </entry>
+		  <entry value="255" name="WEPILOT_FLT_SUBPHASE_INVALID">
+			<description>Flight subphase invalid.</description>
+		  </entry>
+		</enum>
+		<enum name="PATH_BOUND_TYPE">
+		  <description>Indicates whether the vehicle is flying inbound/outbound/or indifferent to reference position.</description>	  
+		  <entry value="0" name="INBOUND"/>
+		  <entry value="1" name="INDIFFERENT"/>
+		  <entry value="2" name="OUTBOUND"/>
+		</enum>
+		<enum name="PATH_DEVIATION_TYPE">
+		  <description>Indicates what type of path the deviation information in PATH_INDICATOR message is referring to.</description>	  
+		  <entry value="0" name="VOR"/>
+		  <entry value="1" name="ILS"/>
+		  <entry value="2" name="WAYPOINT"/>
+		  <entry value="3" name="RNAV"/>
+		</enum>
+	</enums>
+
+    <messages>
+        <message id="500" name="FORCE_SENSOR_DATA">
+		  <description>Holds 6-Axis Force Sensor Data</description>
+		  <field type="uint64_t" name="time_usec" units="us">Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.</field>
+		  <field type="int32_t" name="fx" units="mN">Force in x-Direction in Milli-Newton</field>
+		  <field type="int32_t" name="fy" units="mN">Force in y-Direction in Milli-Newton</field>
+		  <field type="int32_t" name="fz" units="mN">Force in z-Direction in Milli-Newton</field>
+		  <field type="int32_t" name="tx" units="mNmm">Torqe around x-Axis in Milli-Newton Millimeter</field>
+		  <field type="int32_t" name="ty" units="mNmm">Torqe around y-Axis in Milli-Newton Millimeter</field>
+		  <field type="int32_t" name="tz" units="mNmm">Torqe around z-Axis in Milli-Newton Millimeter</field> 
+		</message>
+		<message id="501" name="AUX_OUTPUT">
+		  <description>Holds 8 PWM output values of AUX channel</description>
+		  <field type="uint64_t" name="time_usec" units="us">Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.</field>
+		  <field type="uint16_t" name="num" units="-">Number of AUX channel</field>
+		  <field type="uint16_t" name="aux1" units="us">AUX 1 PWM Value in us</field>
+		  <field type="uint16_t" name="aux2" units="us">AUX 2 PWM Value in us</field>
+		  <field type="uint16_t" name="aux3" units="us">AUX 3 PWM Value in us</field>
+		  <field type="uint16_t" name="aux4" units="us">AUX 4 PWM Value in us</field>
+		  <field type="uint16_t" name="aux5" units="us">AUX 5 PWM Value in us</field>
+		  <field type="uint16_t" name="aux6" units="us">AUX 6 PWM Value in us</field> 
+		  <field type="uint16_t" name="aux7" units="us">AUX 7 PWM Value in us</field> 
+		  <field type="uint16_t" name="aux8" units="us">AUX 8 PWM Value in us</field> 
+		</message>
+		<message id="502" name="CONTROLLER_STATE">
+		  <description>Holds 8 PWM output values of AUX channel</description>
+		  <field type="uint64_t" name="time_usec">Timestamp (UNIX Epoch time or time since system boot). The receiving end can infer timestamp format (since 1.1.1970 or since system boot) by checking for the magnitude of the number.</field>
+		  <field type="int16_t" name="mode">Current controller mode</field>
+		  <field type="int16_t" name="submode">Current controller sub mode</field>
+		  <field type="int8_t" name="active_axes">Binary flags indicating, which axes are affected by the controller (in order lsb first: roll,pitch,yaw,throttle, e.g. 0b1100 refers to active yaw and throttle axes) </field>
+		  <field type="float" name="throttle_in">Normalized throttle input value in range [-1,1]</field>
+		  <field type="float" name="roll_in">Normalized roll input value in range [-1,1]</field>
+		  <field type="float" name="pitch_in">Normalized pitch input value in range [-1,1]</field>
+		  <field type="float" name="yaw_in">Normalized yaw input value in range [-1,1]</field>
+		  <field type="float" name="throttle_out">Normalized throttle input value in range [-1,1]</field>
+		  <field type="float" name="roll_out">Normalized roll input value in range [-1,1]</field> 
+		  <field type="float" name="pitch_out">Normalized pitch input value in range [-1,1]</field> 
+		  <field type="float" name="yaw_out">Normalized yaw input value in range [-1,1]</field> 
+		</message>
+        <message id="510" name="GNSS_PSEUDO_RANGE_PHASE_SHIFT">
+		  <!-- This message is work-in-progress and it can therefore change, and should NOT be used in stable production environments -->
+		  <description>Holds Satellite Number(SAT) and its Pseudo-Range and Phase Shift as measured by a GNSS-Antenna</description>
+		  <field type="uint8_t" name="sat">GNSS-System Crossover Unique SAT-Number</field>
+		  <field type="double" name="pseudorange" units="nm">Pseudo-Range of Satellite to receiver</field>
+		  <field type="double" name="phaseshift" units="ns">Phase Shift in nanoseconds (10^-9 of a second)</field>
+		</message>
+		<message id="509" name="GNSS_EPOCH_TIME">
+		  <!-- This message is work-in-progress and it can therefore change, and should NOT be used in stable production environments -->
+		  <description>Holds the new epoch time of the last raw gnss measurements. Usually follows GNSS_PSEUDO_RANGE_PHASE_SHIFT messages.</description>
+		  <field type="uint32_t" name="epoch">GNSS-System epoch in microseconds</field>
+		</message>
+		<message id="511" name="GNSS_STANDARD_EPHEMERIS">
+		  <!-- This message is work-in-progress and it can therefore change, and should NOT be used in stable production environments -->
+		  <description>Holds Satellite Number(SAT) and its ephemeris data for GPS, SBAS, GALILEO, CMP, and QZSS GNSS-Systems (GLONASS has its own ephemeris definition)</description>
+		  <field type="uint8_t" name="sat">GNSS-System Crossover Unique SAT-Number</field>
+		  <field type="uint16_t" name="iode">Issue of Data (Ephemeris)</field>
+		  <field type="uint16_t" name="iodc">Issue of Data (Satellite)</field>
+		  <field type="uint16_t" name="sva" units="m">SV accuracy (URA index)</field>
+		  <field type="uint8_t" name="svh">SV health (0:ok)</field>
+		  <field type="uint16_t" name="week">Number of GPS-Week/Galileo-Week</field>
+		  <field type="uint8_t" name="code">GPS/QZS: code on L2, GAL/CMP: data sources</field>
+		  <field type="uint8_t" name="flag">GPS/QZS: L2 P data flag, CMP: nav type</field>
+		  <field type="uint32_t" name="toe" units="s">Time of Ephemeris</field>
+		  <field type="uint32_t" name="toc" units="s">Clock Data Reference Time of Week</field>
+		  <field type="uint32_t" name="ttr" units="s">Transmission Time</field>
+		  <field type="double" name="A">Semi-Major Axis</field>
+		  <field type="double" name="e">Eccentricity</field>
+		  <field type="double" name="i0">Inclination Angle at Reference Time</field>
+		  <field type="double" name="OMG0">Longitude of Ascending Node of Orbit Plane at Weekly Epoch</field>
+		  <field type="double" name="omg">Argument of Perigee</field>
+		  <field type="double" name="M0">Mean Anomaly at Reference Time</field>
+		  <field type="double" name="deln">Mean Motion Difference From Computed Value</field>
+		  <field type="double" name="OMGd">Rate of Right Ascension</field>
+		  <field type="double" name="idot">Rate of Inclination Angle</field>
+		  <field type="double" name="crc">Amplitude of the Cosine Harmonic Correction Term to the Orbit Radius</field>
+		  <field type="double" name="crs">Amplitude of the Sine Harmonic Correction Term to the Orbit Radius</field>
+		  <field type="double" name="cuc">Amplitude of the Cosine Harmonic Correction Term to the Argument of Latitude</field>
+	      <field type="double" name="cus">Amplitude of the Sine Harmonic Correction Term to the Argument of Latitude</field> 
+	      <field type="double" name="cic">Amplitude of the Cosine Harmonic Correction Term to the Angle of Inclination</field>
+		  <field type="double" name="cis">Amplitude of the Sine Harmonic Correction Term to the Angle of Inclination</field>
+		  <field type="double" name="fit" units="h">fit interval (h)</field>
+		  <field type="double" name="f0">SV clock parameter af0</field>
+		  <field type="double" name="f1">SV clock parameter af1</field>
+		  <field type="double" name="f2">SV clock parameter af2</field>
+		  <field type="double[4]" name="tgd">Group delay parameters, GPS/QZS:tgd[0]=TGD, GAL:tgd[0]=BGD E5a/E1,tgd[1]=BGD E5b/E1, CMP:tgd[0]=BGD1,tgd[1]=BGD2 </field>
+		  <field type="double" name="Adot">Change rate in semi-major axis </field>
+		  <field type="double" name="ndot">Rate of mean motiondifference from computed value</field>
+		</message>
+		<message id="512" name="GNSS_GLNOASS_EPHEMERIS">
+		  <!-- This message is work-in-progress and it can therefore change, and should NOT be used in stable production environments -->
+		  <description>Holds Satellite Number(SAT) and its ephemeris data for GPS, SBAS, GALILEO, CMP, and QZSS GNSS-Systems (GLONASS has its own ephemeris definition)</description>
+		  <field type="uint8_t" name="sat">GNSS-System Crossover Unique SAT-Number</field>
+		  <field type="uint16_t" name="iode">Issue of Data (Ephemeris)</field>
+		  <field type="uint16_t" name="frq">Satellite frequency number</field>
+		  <field type="uint16_t" name="sva" units="m">SV accuracy (URA index)</field>
+		  <field type="uint8_t" name="svh">SV health (0:ok)</field>
+		  <field type="uint16_t" name="age">Age of Operation</field>
+		  <field type="uint32_t" name="toe" units="s">Epoch of Ephemeris</field>
+		  <field type="uint32_t" name="tof" units="s">Message frame time</field>
+		  <field type="double[3]" name="pos" units="m">Satellite position (ecef) (m)</field>
+		  <field type="double[3]" name="vel" units="m/s">Satellite velocity (ecef) (m/s)</field>
+		  <field type="double[3]" name="acc" units="m/s^2">Satellite acceleration (ecef) (m/s^2)</field>
+		  <field type="double" name="taun" units="s">SV clock bias (s)</field>
+		  <field type="double" name="gamn">relative freq bias</field>
+		  <field type="double" name="dtaun" units="s">delay between L1 and L2 (s)</field>
+		</message>
+		<message id="520" name="GNSS_CMD_REQUEST_ALL_DATA">
+		  <!-- This message is work-in-progress and it can therefore change, and should NOT be used in stable production environments -->
+		  <description>Request all available satellite data of the type specified in datatype</description>
+		  <field type="uint8_t" name="datatype" enum="GNSS_MSG_DATA_TYPE">GNSS-System data type to be requested.</field>
+		</message>
+		<message id="521" name="GNSS_CMD_REQUEST_DATA_LIST">
+		  <!-- This message is work-in-progress and it can therefore change, and should NOT be used in stable production environments -->
+		  <description>Request satellite data specified in datatype, if avialable, of n-satellites specified in Sat.</description>
+		  <field type="uint8_t" name="datatype" enum="GNSS_MSG_DATA_TYPE">GNSS-System data type to be requested.</field>
+		  <field type="uint8_t" name="n_sats">Amount of satellites requested in this msg</field>
+		  <field type="uint8_t[200]" name="sats">Amount of satellites requested in this msg</field>
+		</message>
+		<message id="522" name="WEA_INFO_DATA">
+		  <!-- This message is work-in-progress and it can therefore change, and should NOT be used in stable production environments -->
+		  <description>Transmits received information on wind energy turbines to the GCS.</description>
+		  <field type="uint32_t" name="Windpark_ID" >Identifier of windpark.</field>
+		  <field type="uint32_t" name="WEA_ID">Identifier of wind turbine in windpark Windpark_ID</field>
+		  <field type="uint16_t" name="RotorRPM" units="mrpm">Measured rotation of wind turbine (mrpm = 1000 * rpm)</field>
+		  <field type="uint16_t" name="Heading" units="mdeg">Heading of wind turbine</field>
+		  <field type="uint8_t"  name="MotionMode" enum="WEA_MOTION_MODE">Motion mode of wind turbine</field>
+		  <field type="uint16_t" name="Windspeed" units="mm/s">Measured windspeed</field>
+		  <field type="uint16_t" name="Winddirection" units="mdeg">Measured winddirection</field>
+		</message>
+		<message id="523" name="MQTT_COMMAND_SUBSCRIBE">
+		  <description>Send a command to a MQTT client to start a subscription to a topic specified in field "topic".</description>
+		  <field type="char[50]" name="topic">The topic name the MQTT client should subscribe to.</field>
+		</message>
+		<message id="524" name="MQTT_COMMAND_UNSUBSCRIBE">
+		  <description>Send a command to a MQTT client to stop a subscription to a topic specified in field "topic".</description>
+		  <field type="char[50]" name="topic">The topic name the MQTT client should unsubscribe from.</field>
+		</message>
+		<message id="525" name="GNSS_RELATIVE_NAVIGATION">
+		  <description>Relative Position to base station and supplementing information</description>
+		  <field type="uint64_t" name="time_usec" units="us">Timestamp (time since system boot).</field>
+		  <field type="uint64_t" name="time_utc_usec" units="us">Timestamp (UNIX Epoch time). </field>
+		  <field type="uint16_t" name="Reference_Station_ID">Reference Station ID</field>
+		  <field type="float" name="RelN" units="m">Relative postion north</field>
+		  <field type="float" name="RelE" units="m">Relative postion east</field>
+		  <field type="float" name="RelD" units="m">Relative postion down</field>
+		  <field type="float" name="RelN_Acc" units="m">Accuracy of relative postion north </field>
+		  <field type="float" name="RelE_Acc" units="m">Accuracy of relative postion east</field>
+		  <field type="float" name="RelD_Acc" units="m">Accuracy of relative postion down</field>
+		  <field type="float" name="Heading" units="deg">Heading of the relative position vector</field>
+		  <field type="float" name="Heading_Acc" units="deg">Accuracy of heading of the relative position vector</field>
+		  <field type="float" name="Position_Length" units="m">Length of position vector</field>
+		  <field type="float" name="Accuracy_Length" units="m">Accuracy of heading of the relative position vector</field>
+		  <field type="uint8_t" name="GNSS_Fix_Ok">Boolian: GNSS valid fix (i.e within DOP and accuracy masks)</field>
+		  <field type="uint8_t" name="Differential_Solution">Boolian: differential corrections were applied</field>
+		  <field type="uint8_t" name="Relative_Position_Valid">Boolian: Accuracy of heading of the relative position vector</field>
+		  <field type="uint8_t" name="Carrier_Solution_Floating">Boolian: Carrier phase range solution with floating ambiguities</field>
+		  <field type="uint8_t" name="Carrier_Solution_Fixed">Boolian: Carrier phase range solution with fixed ambiguities</field>
+		  <field type="uint8_t" name="Moving_Base_Mode">Boolian: The receiver is operating in moving base mode</field>
+		  <field type="uint8_t" name="Reference_Position_Miss">Boolian: Extrapolated reference position was used to compute moving base solution this epoch</field>
+		  <field type="uint8_t" name="Reference_Observations_Miss">Boolian: Extrapolated reference observations were used to compute moving base solution this epoch</field>
+		  <field type="uint8_t" name="Heading_Valid">Boolian: Heading information is valid</field>
+		  <field type="uint8_t" name="Relative_Position_Normalized">Boolian: The components of the relative position vector (including the high-precision parts) are normalized</field>
+		</message>
+		<message id="526" name="NOSE_BOOM">
+		  <description>Transmits received information of the superARTIS nose boom.</description>
+		  <field type="uint64_t" name="time_usec" units="us">Timestamp (time since system boot).</field>
+		  <field type="uint32_t" name="va" >[1e4 m/s] Measured airspeed</field>
+		  <field type="int32_t" name="alpha">[1e4 deg] Measured angle of attack</field>
+		  <field type="int32_t" name="beta">[1e4 deg] Measured sideslip angle</field>
+		  <field type="uint32_t" name="va_raw" >[1e4 m/s] Raw measured airspeed</field>
+		  <field type="int32_t" name="alpha_raw">[1e4 deg] Raw measured angle of attack</field>
+		  <field type="int32_t" name="beta_raw">[1e4 deg] Raw measured sideslip angle</field>
+		</message>
+		<message id="527" name="FAUST_SETPOINTS">
+		  <description>Transmits received information of the superARTIS nose boom.</description>
+		  <field type="uint64_t" name="time_usec" units="us">Timestamp (time since system boot).</field>
+		  <field type="float" name="delta_y" >[m] Lateral path error</field>
+		  <field type="float" name="delta_y_dot">[m/s] Lateral velocity error</field>
+		  <field type="float" name="v_sp">[m/s] Velocity Setpoint</field>
+		  <field type="float" name="h_sp" >[m] Height Setpoint</field>
+		  <field type="float" name="phi_sp">[rad] Euler angle phi (roll) setpoint</field>
+		  <field type="float" name="theta_sp">[rad] angle theta (pitch) setpoint</field>
+		  <field type="float" name="psi_sp">[rad] Euler angle psi (yaw) setpoint</field>
+		  <field type="float" name="roc_sp" >[m/s] Rate of climb setpoint</field>
+		  <field type="float" name="p_sp">[rad/s] Body rate p (roll) setpoint </field>
+		  <field type="float" name="q_sp">[rad/s] Body rate q (pitch) setpoint</field>
+		  <field type="float" name="r_sp">[rad/s] Body rate r (yaw) setpoint</field>
+		</message>
+		<message id="528" name="INNER_LOOP_SETPOINT">
+		  <description>Transmits received information of the superARTIS nose boom.</description>
+		  <field type="uint64_t" name="time_usec" units="us">Timestamp (time since system boot).</field>
+		  <field type="float" name="phi_sp">[rad] Euler angle phi (roll) setpoint</field>
+		  <field type="float" name="theta_sp">[rad] angle theta (pitch) setpoint</field>
+		  <field type="float" name="psi_sp">[rad] Euler angle psi (yaw) setpoint</field>
+		  <field type="float" name="p_sp">[rad/s] Body rate p (roll) setpoint </field>
+		  <field type="float" name="q_sp">[rad/s] Body rate q (pitch) setpoint</field>
+		  <field type="float" name="r_sp">[rad/s] Body rate r (yaw) setpoint</field>
+		  <field type="float" name="roc_sp" >[m/s] Rate of climb setpoint</field>
+		</message>				
+		<message id="529" name="OUTER_LOOP_SETPOINT">
+		  <description>Transmits received information of the superARTIS nose boom.</description>
+		  <field type="uint64_t" name="time_usec" units="us">Timestamp (time since system boot).</field>
+		  <field type="uint16_t" name="mode">OL controller mode bitfield.</field>
+		  <field type="int32_t" name="px" units="mm">Position setpoint North or longitudinal in heading reference system.</field>
+		  <field type="int32_t" name="py" units="mm">Position setpoint East or lateral in heading reference system.</field>
+		  <field type="int32_t" name="pz" units="mm">Position setpoint Down.</field>
+		  <field type="int16_t" name="vx" units="cm/s">Velocity North or forward velocity in heading reference system.</field>
+		  <field type="int16_t" name="vy" units="cm/s">Velocity East or lateral velocity in heading reference system.</field>
+		  <field type="int16_t" name="vz" units="cm/s">Velocity Down </field>
+		  <field type="int16_t" name="ax" units="cm/s/s">Acceleration North or longitudinal in heading reference system.</field>
+		  <field type="int16_t" name="ay" units="cm/s/s">Acceleration East or longitudinal in heading reference system.</field>
+		  <field type="int16_t" name="az" units="cm/s/s">Acceleration Down.</field>
+		  <field type="int16_t" name="psi" units="mrad">Commanded yaw angle (euler)</field>
+		  <field type="int16_t" name="dpsi" units="mrad/s">Commanded yaw angle (euler) rate</field>
+		</message>
+		<message id="530" name="FAUST_CTRL_MODE_STATUS">
+		  <description>Transmits mode status information of FAUST controller</description>
+		  <field type="uint64_t" name="time_usec" units="us">Timestamp (time since system boot).</field>
+		  <field type="uint8_t" name="fcs_enabled">[-], This indicates if the experiment is enabled. The SP can choose manual or auto on his remote control, this mirrors this check 0: Manual mode, 1: Auto mode</field>
+		  <field type="uint8_t" name="fcs_mode">[-], Indicates the fcs mode. 0: disabled, 1: SysID, 2:AFCS, 3:SysID + AFCS</field>
+		  <field type="uint8_t" name="sysid_status">[-], Indicates whether a SysID input is active or not. 0: disabled, 1: SysID active</field>  
+		</message>
+		<message id="531" name="TASK_SEQUENCE">
+		  <description>Transmits currently planned sequence of tasks.</description>
+		  <field type="uint64_t" name="time_usec" units="us">Timestamp (time since system boot).</field>
+		  <field type="uint8_t" name="current_task">[-], Currently executed task.</field>
+		  <field type="uint8_t" name="mode">[-], Current mode of operation.</field>
+		  <field type="uint8_t" name="n_elements">[-],Number of tasks in the task sequence.</field>
+		  <field type="uint8_t[20]" name="sequence">[-], Upcoming tasks in the sequence.</field>
+		</message>
+		<message id="532" name="OWF_MISSION_STATUS">
+		  <description>Transmits detailed information on current OWF mission.</description>
+		  <field type="uint64_t" name="time_usec" units="us">Timestamp (time since system boot).</field>
+		  <field type="uint32_t" name="target_Windpark_ID" >Identifier of target windpark.</field>
+		  <field type="uint32_t" name="target_WEA_ID">Identifier of target  wind turbine in windpark Windpark_ID</field>
+		  <field type="uint8_t" name="wea_hoist_ready">[-], Target wea is ready for landing.</field>
+		  <field type="uint8_t" name="wea_approach_clear">[-], OWF control room cleared approach on wea.</field>
+		  <field type="uint16_t" name="n_wea_request">[-], Number of wind turbines of interest of which data is requested from.</field>
+		  <field type="uint16_t" name="n_wea_data_available">[-], Number of wind turbines of interest of which data is available. (should be the same as n_wea_request if all works fine).</field>
+		</message>
+		<message id="533" name="GPS_GGA_NTRIP_DATA">
+		  <description>NMEA GGA message for creating an NTRIP server request for online provided RTCM corrections (requires internet)</description>
+		  <field type="uint8_t" name="flags">LSB: 1 means message is fragmented, next 2 bits are the fragment ID, the remaining 5 bits are used for the sequence ID. Messages are only to be flushed to the NTRIP server when the entire message has been reconstructed. The fragment ID specifies which order the fragments should be assembled into a buffer, while the sequence ID is used to detect a mismatch between different buffers. The buffer is considered fully reconstructed when either all 4 fragments are present, or all the fragments before the first fragment with a non full payload is received. This management is used to ensure that normal GPS operation doesn't corrupt NMEA GGA data, and to recover from a unreliable transport delivery order.</field>
+		  <field type="uint8_t" name="len" units="bytes">data length</field>
+		  <field type="uint8_t[180]" name="data">NMEA GGA message (may be fragmented)</field>
+		</message>
+		<message id="534" name="LANDING_GEOMETRY">
+		  <description>Provides information on geometry of and around landing pad.</description>
+		  <field type="uint16_t" name="fore" units="cm">Clearance of landing pad in forward longitudinal direction. If installed on vehicle: Length of vehicle from CoP to most forward point.</field>
+		  <field type="uint16_t" name="aft" units="cm">Clearance of landing pad in aft longitudinal direction. If installed on vehicle: Length of vehicle from CoP to most aft point.</field>
+		  <field type="uint16_t" name="port" units="cm">Clearance of landing pad in lateral left direction. If installed on vehicle: Width of vehicle from CoP to most leftward point.</field>
+		  <field type="uint16_t" name="starboard" units="cm">Clearance of landing pad in lateral right direction. If installed on vehicle: Width of vehicle from CoP to most rightward point.</field>
+		  <field type="uint16_t" name="top" units="cm">Height of landing pad relative to surroundings. If installed on vehicle: Height of vehicle from CoP to highest point.</field>
+		  <field type="uint16_t" name="bottom" units="cm">Zero for landing pad installed on the ground. If installed on vehicle: Height of vehicle from CoP to lowest point.</field>
+		  <field type="uint16_t" name="dvalue" units="cm">D-Value of landing pad if present. Set to 0 if not present.</field>
+		  <field type="uint16_t" name="length" units="cm">Length of landing pad in longitudinal direction.</field>
+		  <field type="uint16_t" name="width" units="cm">Width of landing pad in lateral direction.</field>
+		  <field type="int16_t" name="pos_ref_x" units="cm">Longitudinal offset of position reference point (e.g. GNSS Antenna) to CoP.</field>
+		  <field type="int16_t" name="pos_ref_y" units="cm">Lateral offset of position reference point (e.g. GNSS Antenna) to CoP.</field>
+		  <field type="int16_t" name="pos_ref_z" units="cm">Height offset (down is positive) of position reference point (e.g. GNSS Antenna) to CoP.</field>
+		  <field type="float" name="heading_offset" units="rad">Orientation of longitudinal axis of landing pad with respect to true north. If installed on vehicle: Offset of longitudinal axis to vehicle's long. axis.</field>
+		</message>
+		<message id="535" name="RELATIVE_NAVIGATION">
+		  <description>Relative position and attitude information from CoG of vehicle to a point of interest (e.g. specified by LANDING_GEOMETRY msg).</description>
+		  <field type="uint64_t" name="time_usec" units="us">Timestamp (time since system boot).</field>
+		  <field type="int16_t" name="rel_pos_n" units="cm">Relative north position in NED earth-fixed frame.</field>
+		  <field type="int16_t" name="rel_pos_e" units="cm">Relative east position in NED earth-fixed frame.</field>
+		  <field type="int16_t" name="rel_pos_d" units="cm">Relative down position in NED earth-fixed frame.</field>
+		  <field type="int16_t" name="rel_vel_n" units="cm/s">Relative north velocity in NED earth-fixed frame.</field>
+		  <field type="int16_t" name="rel_vel_e" units="cm/s">Relative east velocity in NED earth-fixed frame.</field>
+		  <field type="int16_t" name="rel_vel_d" units="cm/s">Relative down velocity in NED earth-fixed frame.</field>
+		  <field type="int16_t" name="rel_acc_n" units="mm/s2">Relative north acceleration in NED earth-fixed frame.</field>
+		  <field type="int16_t" name="rel_acc_e" units="mm/s2">Relative east acceleration in NED earth-fixed frame.</field>
+		  <field type="int16_t" name="rel_acc_d" units="mm/s2">Relative down acceleration in NED earth-fixed frame.</field>
+		  <field type="int16_t" name="rel_pos_n_var" units="cm">Relative north position variance in NED earth-fixed frame.</field>
+		  <field type="int16_t" name="rel_pos_e_var" units="cm">Relative east position variance in NED earth-fixed frame.</field>
+		  <field type="int16_t" name="rel_pos_d_var" units="cm">Relative down position variance in NED earth-fixed frame.</field>
+		  <field type="int16_t" name="parallel" units="mrad">Angle between vehicle x,y-plane and coop x,y-plane to indicate attitude alignment.</field>
+		  <field type="int16_t" name="roll" units="mrad">Roll angle between vehicle x,y-plane and coop x,y-plane.</field>
+		  <field type="int16_t" name="pitch" units="mrad">Pitch angle between vehicle x,y-plane and coop x,y-plane.</field>
+		  <field type="int16_t" name="delta_hdg" units="mrad">Difference between the headings of vehicle and landing platform.</field>
+		  <field type="uint8_t" name="valid" invalid="0">Boolean indicating whether the fields contain valid information (valid: 1, invalid: 0). Default is 0 (invalid).</field>
+		</message>
+		<message id="536" name="LOG_STATUS_CHECK">
+		  <description>Check whether logging is active, which logger type is active, and how many bytes have been written to the log file.</description>
+		  <field type="uint64_t" name="time_usec" units="us">Timestamp (time since system boot).</field>
+		  <field type="uint8_t" name="islogging">0: not logging, 1: logging.</field>
+		  <field type="uint8_t" name="type">Logger type.</field>
+		  <field type="float" name="written_kb" units="kiB">Size of written data to logfile in kiloBytes.</field>
+		</message>
+		<message id="537" name="WEATHER_STATION_DATA">
+		  <description>Data of weather station containing wind information.</description>
+		  <field type="uint64_t" name="time_usec" units="us">Timestamp (time since system boot).</field>
+		  <field type="uint16_t" name="windspeed" units="mm/s">Horizontal windspeed.</field>
+		  <field type="int16_t" name="winddirection" units="mrad">Winddirection true north.</field>
+		  <field type="int16_t" name="wind_vertical_speed" units="mm/s">Vertical windspeed.</field>
+		  <field type="uint16_t" name="windspeed_mean" units="mm/s">10min mean value of horizontal windspeed.</field>
+		  <field type="int16_t" name="winddirection_mean" units="mrad">10min mean value of winddirection true north.</field>
+		  <field type="int16_t" name="wind_vertical_speed_mean" units="mm/s">10min mean value of vertial windspeed.</field>
+		  <field type="int16_t" name="gusts_speed" units="mm/s">10min mean gust value of horizontal wind.</field>
+		  <field type="uint8_t" name="has10min">Wind observation at least for 10min achieved, mean values are valid 10min means.</field>
+		  <field type="uint64_t" name="gnss_time_usec" units="us">GNSS timestamp of observation.</field>
+		  <field type="int16_t" name="temperature" units="cdegC">Air temperature.</field>
+		  <field type="uint16_t" name="pressure" units="hPa">Static air pressure in hPa.</field>
+		  <field type="uint16_t" name="density" units="g/m^3">Air density.</field>
+		  <field type="uint8_t" name="rel_hum" units="%">Air relative humidity in percent.</field>
+		  <field type="uint16_t" name="speed_of_sound" units="cm/s">Air speed of sound.</field>
+		  <field type="int32_t" name="lat" units="degE7">Latitude (WGS84, EGM96 ellipsoid) of weather station.</field>
+          <field type="int32_t" name="lon" units="degE7">Longitude (WGS84, EGM96 ellipsoid) of weather station.</field>
+          <field type="int32_t" name="alt" units="mm">Altitude (WGS84, MSL) of weather station.</field>
+		</message>
+		<message id="538" name="HIL_DISTANCE_SENSOR">
+          <description>Distance sensor message equivalent to DISTANCE_SENSOR message but for use from HIL</description>
+          <field type="uint64_t" name="time_usec" units="us">Timestamp (time since system boot).</field>
+          <field type="int16_t" name="min_distance" units="cm">Minimum distance the sensor can measure.</field>
+          <field type="int16_t" name="max_distance" units="cm">Maximum distance the sensor can measure.</field>
+          <field type="int16_t" name="current_distance" units="cm">Current distance the sensor is measuring.</field>
+          <field type="uint8_t" name="orientation" enum="MAV_SENSOR_ORIENTATION">Direction in which the sensor is oriented.</field>
+          <field type="uint8_t" name="covariance" units="mm^2">Measurement variance.</field>
+          <field type="float[4]" name="quaternion">Quaternion of the sensor orientation in vehicle body frame (w, x, y, z). Zero-rotation is along the vehicle body x-axis.</field>
+          <field type="uint16_t" name="signal_quality">Signal quality of the sensor. Calculated with the formula for TFmini. Ranges from 0 to 10000</field>
+		</message>
+		<message id="539" name="WEPILOT_STATUS">
+          <description>Status information if weControl wePilot indicating condition of state machine</description>
+          <field type="uint64_t" name="time_usec" units="us">Timestamp (time since system boot).</field>
+		  <field type="uint8_t" name="num_sats">Satellites in use.</field>
+          <field type="uint8_t" name="ctrl_mode" enum="WEPILOT_CTRL_MODE">wePilot main CTRL mode.</field>
+		  <field type="uint8_t" name="flight_mode" enum="WEPILOT_FLT_MODE">wePilot flight mode.</field>
+		  <field type="uint8_t" name="flight_phase" enum="WEPILOT_FLT_PHASE">wePilot flight phase.</field>
+		  <field type="uint8_t" name="flight_subphase" enum="WEPILOT_FLT_SUBPHASE">wePilot flight sub-phase.</field>        
+		</message>
+		<message id="540" name="WEPILOT_VEHICLESTATE">
+          <description>Solution of sensor fusion of the weControl wePilot.</description>
+          <field type="uint64_t" name="time_usec" units="us">Timestamp (time since system boot).</field>
+		  <field type="int32_t" name="lat" units="degE7">Latitude (WGS84)</field>
+		  <field type="int32_t" name="lon" units="degE7">Longitude (WGS84)</field>
+		  <field type="int32_t" name="alt" units="mm">Altitude (MSL). Positive for up.</field>
+		  <field type="int16_t" name="pos_n" units="cm">North position in NED earth-fixed frame.</field>
+		  <field type="int16_t" name="pos_e" units="cm">East position in NED earth-fixed frame.</field>
+		  <field type="int16_t" name="pos_d" units="cm">Down position in NED earth-fixed frame.</field>
+		  <field type="int16_t" name="vel_n" units="cm/s">North velocity in NED earth-fixed frame.</field>
+		  <field type="int16_t" name="vel_e" units="cm/s">East velocity in NED earth-fixed frame.</field>
+		  <field type="int16_t" name="vel_d" units="cm/s">Down velocity in NED earth-fixed frame.</field>
+		  <field type="float" name="roll" units="deg">roll</field>
+		  <field type="float" name="pitch" units="deg">pitch</field>
+		  <field type="float" name="heading" units="deg">heading</field>
+		  <field type="float" name="rollspeed" units="deg/s">Body frame roll / phi angular speed</field>
+		  <field type="float" name="pitchspeed" units="deg/s">Body frame pitch / theta angular speed</field>
+		  <field type="float" name="yawspeed" units="deg/s">Body frame yaw / psi angular speed</field>
+		  <field type="uint8_t" name="valid">True if data is valid</field>       
+		</message>
+		<message id="541" name="HIL_VEHICLE">
+          <description>Flight mechanical state of the simulated vehicle for reference and debugging purposes.</description>
+          <field type="uint64_t" name="time_usec" units="us">Timestamp (time since system boot).</field>
+		  <field type="int32_t" name="lat" units="degE7">Latitude (WGS84)</field>
+		  <field type="int32_t" name="lon" units="degE7">Longitude (WGS84)</field>
+		  <field type="int32_t" name="alt" units="mm">Altitude (MSL). Positive for up.</field>
+		  <field type="int32_t" name="pos_n" units="cm">North position in NED earth-fixed frame.</field>
+		  <field type="int32_t" name="pos_e" units="cm">East position in NED earth-fixed frame.</field>
+		  <field type="int32_t" name="pos_d" units="cm">Down position in NED earth-fixed frame.</field>
+		  <field type="int16_t" name="vel_n" units="cm/s">North velocity in NED earth-fixed frame.</field>
+		  <field type="int16_t" name="vel_e" units="cm/s">East velocity in NED earth-fixed frame.</field>
+		  <field type="int16_t" name="vel_d" units="cm/s">Down velocity in NED earth-fixed frame.</field>
+		  <field type="int16_t" name="vel_xb" units="cm/s">Velocity in x-direction in body-fixed frame.</field>
+		  <field type="int16_t" name="vel_yb" units="cm/s">Velocity in y-direction in body-fixed frame.</field>
+		  <field type="int16_t" name="vel_zb" units="cm/s">Velocity in z-direction in body-fixed frame.</field>
+		  <field type="int16_t" name="xacc" units="mG">X acceleration in body frame</field>
+          <field type="int16_t" name="yacc" units="mG">Y acceleration in body frame</field>
+          <field type="int16_t" name="zacc" units="mG">Z acceleration in body frame</field>
+		  <field type="float" name="roll" units="deg">roll</field>
+		  <field type="float" name="pitch" units="deg">pitch</field>
+		  <field type="float" name="heading" units="deg">heading</field>
+		  <field type="float" name="rollspeed" units="deg/s">Body frame roll / phi angular speed</field>
+		  <field type="float" name="pitchspeed" units="deg/s">Body frame pitch / theta angular speed</field>
+		  <field type="float" name="yawspeed" units="deg/s">Body frame yaw / psi angular speed</field>
+		  <field type="uint8_t" name="valid">True if data is valid</field>       
+		</message>
+		<message id="542" name="ENGINE_STATUS">
+		  <description>Gernalized status message for engines used for main or secondary propulsion of the vehicle.</description>
+		  <field type="uint64_t" name="time_usec" units="us">Timestamp (time since system boot).</field>
+		  <field type="uint8_t"  name="id">ID number of engine. Should be unique and consistent for the lifetime of a vehicle.</field>
+		  <field type="uint8_t"  name="power_id">ID number of the engine power source (battery for electric, fuel tank for combustion). Should be unique and consistent for the lifetime of a vehicle.</field>
+		  <field type="uint8_t"  name="type">Engine Type, 0: Unknown, 1: Electric, 2: ESC, 3: Combustion, 4: Turbine</field>
+		  <field type="uint16_t" name="rpm" units="rpm">Reported motor RPM.</field>
+		  <field type="uint16_t" name="voltage" units="cV">Motor DC voltage measured. Combustion or turbine: fuel pump voltage,</field>
+		  <field type="uint16_t" name="fuelflow">Fuel flow of engine: fuel flow in Centiliter per minute (combustion or turbine), motor current in centi Amperes (electric).</field>
+		  <field type="uint16_t" name="fuelconsumed">Consumed power (electric in mAh) or fuel (in Centiliter) since system start or installation of battery.</field>
+		  <field type="int16_t"  name="temperature" units="cdegC">Motor temperature.</field>
+		  <field type="uint16_t" name="gas" units="%">Motor gas setting in percent.</field>
+		  <field type="uint16_t" name="pwm" units="%">Motor pwm control signal in percent.</field>
+		  <field type="uint16_t" name="control_voltage" units="cV">If present, motor controller voltage.</field>
+		</message>
+		<message id="543" name="CONTROLLER_REFERENCE">
+		  <description>Controller reference values from command filter</description>
+		  <field type="uint64_t" name="time_usec" units="us">Timestamp (time since system boot).</field>
+		  <field type="int32_t" name="px" units="cm">Reference Position setpoint North.</field>
+		  <field type="int32_t" name="py" units="cm">Reference Position setpoint East.</field>
+		  <field type="int32_t" name="pz" units="cm">Reference Position setpoint Down.</field>
+		  <field type="int16_t" name="vx" units="cm/s">Reference Velocity North.</field>
+		  <field type="int16_t" name="vy" units="cm/s">Reference Velocity East.</field>
+		  <field type="int16_t" name="vz" units="cm/s">Reference Velocity Down.</field>
+		  <field type="int16_t" name="ax" units="cm/s/s">Reference acceleration North.</field>
+		  <field type="int16_t" name="ay" units="cm/s/s">Reference acceleration East.</field>
+		  <field type="int16_t" name="az" units="cm/s/s">Reference acceleration Down.</field>
+		  <field type="int16_t" name="psi" units="deg">Reference yaw.</field>
+		  <field type="int16_t" name="dpsi" units="deg">Reference yaw derivative.</field>
+		  <field type="float" name="theta" units="deg">Commanded pitch.</field>
+		  <field type="float" name="phi" units="deg">Commanded roll.</field>
+		  <field type="float" name="r" units="deg">Commanded body-fixed yaw rate.</field>
+		  <field type="int16_t" name="w" units="cm/s">Commanded body-fixed vertical velocity.</field>
+		  <field type="int16_t" name="d_x" units="cm/s/s">Disturbance estimate (body-fixed x-axis).</field>
+		  <field type="int16_t" name="d_y" units="cm/s/s">Disturbance estimate (body-fixed y-axis).</field>
+		  <field type="int16_t" name="d_z" units="cm/s/s">Disturbance estimate (body-fixed z-axis).</field>
+		</message>
+		<message id="544" name="HIL_SBUS2">
+          <description>HIL and SITL message for simulating a Futaba S.BUS2 RC protocol containing sensor information.</description>
+          <field type="uint64_t" name="time_usec" units="us">Timestamp (time since system boot).</field>
+		  <field type="uint8_t" name="nSlots">Number of slot fields used in this message</field>
+		  <field type="uint8_t[36]" name="Slots">Slots, contains 12 fields of triplet Slot-ID, Highbyte, Lowbyte</field> 		  
+		</message>
+		<message id="545" name="SLUNG_LOAD_DATA">
+          <description>Message containing sensor information and status of slung load sensor for position and motion of a slung load connected to the vehicle.</description>
+          <field type="uint64_t" name="time_usec" units="us">Timestamp (time since system boot).</field>
+		  <field type="uint8_t" name="healthy">Healthy flag, true if sensor processing works correctly and slung load is correctly detected.</field>
+		  <field type="float" name="force_abs" units="N">Load force in N.</field>
+		  <field type="float" name="phi" units="rad">Lateral load position in NED in rad.</field>
+		  <field type="float" name="theta" units="rad">Longitudinal load position in NED in rad.</field>
+		  <field type="float" name="length" units="m">Tether length of load in m.</field>
+		</message>
+		<message id="546" name="ELMO_CTRL_STATUS">
+          <description>Message containing information on the status and configuration of the ELMO motor driver.</description>
+          <field type="uint64_t" name="time_usec" units="us">Timestamp (time since system boot).</field>
+		  <field type="float" name="voltage" units="V">Measured motor drive voltage.</field>
+		  <field type="int8_t" name="temp" units="degC">Measured motor controller temperature.</field>
+		  <field type="int32_t" name="pos" units="cts">Rotor position of motor in counts (cts).</field>
+		  <field type="int32_t" name="vel" units="ctss">Rotor velocity of motor in counts per second (cts/s).</field>
+		  <field type="float" name="current" units="A">Measured motor drive current.</field>
+		  <field type="int32_t" name="motionstatus" units="cts">Motor controller motionstatus flag.</field>
+		  <field type="int32_t" name="status">Motor controller motionstatus.</field>
+		  <field type="int32_t" name="motor_failures">Motor controller failure code.</field>
+		  <field type="int32_t" name="error_code">Motor controller error code.</field>
+		  <field type="int32_t" name="error_code_extended">Motor controller extended error code flag.</field>
+		  <field type="int32_t" name="pos_sp" units="cts">Rotor position setpoint of motor in counts (cts).</field>
+		  <field type="int32_t" name="vel_sp" units="rad">Rotor velocity setpoint of motor in counts per second (cts/s).</field>
+		  <field type="float" name="current_sp" units="A">Motor current setpoint.</field>		  
+		</message>
+		<message id="547" name="DLR_WINCH_STATUS">
+          <description>Message containing information on the status and configuration of the winch main controller.</description>
+          <field type="uint64_t" name="time_usec" units="us">Timestamp (time since system boot).</field>
+		  <field type="float" name="length" units="m">Cable length.</field>
+		  <field type="float" name="velocity" units="m/s">Cable velocity.</field>
+		  <field type="float" name="force" units="N">Cable force.</field>
+		  <field type="float" name="length_sp" units="m">Cable length setpoint.</field>
+		  <field type="float" name="velocity_sp" units="m/s">Cable velocity setpoint.</field>
+		  <field type="float" name="force_sp" units="N">Cable force setpoint</field>	
+		  <field type="int8_t" name="mode">Mode of winch operation.</field>			  
+		</message>
+		<message id="548" name="PATH_INDICATOR">
+          <description>Message for indicating path deviation to pilot.</description>
+          <field type="uint64_t" name="time_usec" units="us">Timestamp (time since system boot).</field>
+		  <field type="int8_t" name="boundtype" enum="PATH_BOUND_TYPE">Indicates whether the vehicle is flying inbound, outbound, or indifferent to the reference point.</field>
+		  <field type="uint8_t" name="path_type" enum="PATH_DEVIATION_TYPE">Indicates what type of path the deviation is referring to.</field>
+		  <field type="int8_t" name="lat_dev" units="%">Signed (horizontal) deviation from path (e.g. from a localizer) in percent of max. indicated deviation.</field>
+		  <field type="int8_t" name="vert_dev" units="%">Signed (vertical) deviation from path (e.g. from a glide slope) in percent of max. indicated deviation.</field>			  
+		</message>
+    </messages>
+</mavlink>
